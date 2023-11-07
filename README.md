@@ -53,3 +53,14 @@ You can deploy your own running:
 ```bash
 ./deploy.sh
 ```
+
+## Future Work
+
+The current implementation has limitations that can be addressed future iterations, namely:
+
+- As arrays are not currently available, we have hardcoded the demonstration of the VRF to 4 players
+- The Poseidon hash function (or any hash function) in Leo only takes in a single input. In our case, where we have a fan in of 4 to the hash function, we had to opt for a workaround of summing the 4 inputs together to form a single input. Though this sounds ‘dirty’, there is no real cause of concern as there is no easy way to manipulate the game hash, previous number and user secret. The output random number is still very reliable
+- Currently we are using struct for the registration and returning the random number and also the input for the function to generate the next random number, which we originally wanted to use Record for. Ideally we integrate the use of records for the initialization process somehow to allow some sort of additional commitment on-chain for their secrets.
+- There are some additional checks that we should add in order to enforce the order of random number generation and prevent going back via the use of a previous output
+- The comparison bug found during the hackathon also prevented proper constraints to work as expected.
+- We need to come up with a way for players to query the previous random number via the Leo program.
