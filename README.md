@@ -4,6 +4,8 @@ _Making randomness collective, trustless, permissionless_
 
 > 🏆 Grand Prize Winner of the Aleo zkHouse Token2049 Singapore 🏆
 
+An Onchain Verifiable Random Function (VRF) that consists of pre-game commitments with per-round additive randomness generation, built for on-chain turn based games.
+
 ## Problem
 
 How can we have randomness for onchain turn-based games that is:
@@ -30,7 +32,7 @@ An Onchain Verifiable Random Function that consists of pre-game commitments with
    2. Game Hash
    3. Previous Random Number
    4. Turn Number
-2. Circuit ensures User Secret Hash equals to Pre-game User Secret Hash
+2. Circuit ensures **User Secret Hash equals to Pre-game User Secret Hash**
 
 ### How to run
 
