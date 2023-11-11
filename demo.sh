@@ -2,11 +2,14 @@
 # leo run compute_user_secret_hash
 # sleep 2
 
+clear
 echo "--- Preparing players... ---"
 leo run init_game_hash
-sleep 3
+read -rsp $'Press any key to continue...\n' -n1 key
 
-echo "\n\n--- First round - Player 2 compute new random value with Player 1's random value ---"
+
+clear
+echo "--- First round - Player 2 compute new random value with Player 1's random value ---"
 leo run get_random \
   "{ \
   user: aleo1cd3v453y0n0ntl2gw7l3fpksp2ae9s46rzlt87mup2gth0asygzq9k5q0l, \
@@ -20,9 +23,10 @@ leo run get_random \
   user_secret_hash: 1916866650744865271241509820990367882428103130043613420607863419653524065772field \
   }" \
   101field
-sleep 2
+read -rsp $'Press any key to continue...\n' -n1 key
 
-echo "\n\n--- Second round - Player 3 compute new random value with Player 2's random value ---"
+clear
+echo "--- Second round - Player 3 compute new random value with Player 2's random value ---"
 leo run get_random \
   "{ \
   user: aleo1k4pdvq6gh8duzqd3g4p852p2j7xn76dhfmx0ds9lj6sg96g7k5xqsxvc5y, \
@@ -36,9 +40,11 @@ leo run get_random \
   user_secret_hash: 8063113796567896899791860693652578285507024304475589383680929656597160250795field \
   }" \
   102field
-sleep 2
+read -rsp $'Press any key to continue...\n' -n1 key
 
-echo "\n\n--- Final round - Player 4 compute new random value with Player 3's random value ---"
+
+clear
+echo "--- Final round - Player 4 compute new random value with Player 3's random value ---"
 leo run get_random \
   "{ \
   user: aleo19hdxv0h4nhrtd68cgvfszvavhgxx765zj2vm93k2dnc55vdza5zq5nwxsh, \
@@ -52,6 +58,6 @@ leo run get_random \
   user_secret_hash: 7144296222674377988574676364971060105981249694178697067231339719749617873236field \
   }" \
   103field
-sleep 2
+read -rsp $'Press any key to continue...\n' -n1 key
 
 echo "DONE!"
