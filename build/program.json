@@ -1,5 +1,5 @@
 {
-    "program": "aleo_onchain_vrf.aleo",
+    "program": "randgen_4_player.aleo",
     "version": "0.0.0",
     "description": "",
     "license": "MIT"

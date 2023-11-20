@@ -1,4 +1,4 @@
-program aleo_onchain_vrf.aleo;
+program randgen_4_player.aleo;
 
 struct PlayerInit:
     player_addr as address;
@@ -17,8 +17,8 @@ struct RandomNumber:
 
 
 mapping game_hash_to_turn_counter:
-	key left as field.public;
-	value right as field.public;
+	key as field.public;
+	value as field.public;
 
 function compute_user_secret_hash:
     input r0 as field.private;
@@ -28,29 +28,25 @@ function compute_user_secret_hash:
 
 
 function init_game_hash:
-    input r0 as PlayerInit.public;
-    input r1 as PlayerInit.public;
-    input r2 as PlayerInit.public;
-    input r3 as PlayerInit.public;
-    assert.neq r0.user_secret_hash 0field;
-    assert.neq r1.user_secret_hash 0field;
-    assert.neq r2.user_secret_hash 0field;
-    assert.neq r3.user_secret_hash 0field;
-    add r0.user_secret_hash r1.user_secret_hash into r4;
-    add r4 r2.user_secret_hash into r5;
-    add r5 r3.user_secret_hash into r6;
-    cast r0.player_addr r6 r0.user_secret_hash into r7 as Player;
-    cast r1.player_addr r6 r1.user_secret_hash into r8 as Player;
-    cast r2.player_addr r6 r2.user_secret_hash into r9 as Player;
-    cast r3.player_addr r6 r3.user_secret_hash into r10 as Player;
-    cast r7.user r6 1field 0field into r11 as RandomNumber;
-    output r7 as Player.private;
-    output r8 as Player.private;
-    output r9 as Player.private;
-    output r10 as Player.private;
-    output r11 as RandomNumber.private;
-
-    finalize r6;
+    input r0 as [PlayerInit; 4u32].public;
+    assert.neq r0[0u32].user_secret_hash 0field;
+    add 0field r0[0u32].user_secret_hash into r1;
+    assert.neq r0[1u32].user_secret_hash 0field;
+    add r1 r0[1u32].user_secret_hash into r2;
+    assert.neq r0[2u32].user_secret_hash 0field;
+    add r2 r0[2u32].user_secret_hash into r3;
+    assert.neq r0[3u32].user_secret_hash 0field;
+    add r3 r0[3u32].user_secret_hash into r4;
+    cast r0[0u32].player_addr r4 r0[0u32].user_secret_hash into r5 as Player;
+    cast r0[1u32].player_addr r4 r0[1u32].user_secret_hash into r6 as Player;
+    cast r0[2u32].player_addr r4 r0[2u32].user_secret_hash into r7 as Player;
+    cast r0[3u32].player_addr r4 r0[3u32].user_secret_hash into r8 as Player;
+    cast r5r6r7r8 into r9 as [Player; 4u32];
+    cast r9[0u32].user r4 1field 0field into r10 as RandomNumber;
+    async init_game_hash r4 into r11;
+    output r9 as [Player; 4u32].private;
+    output r10 as RandomNumber.private;
+    output r11 as randgen_4_player.aleo/init_game_hash.future;
 
 finalize init_game_hash:
     input r0 as field.public;
@@ -73,9 +69,9 @@ function get_random:
     add r6 r2 into r7;
     hash.psd2 r7 into r8 as field;
     cast r1.user r0.game_hash r8 r4 into r9 as RandomNumber;
+    async get_random r0.game_hash r4 into r10;
     output r9 as RandomNumber.private;
-
-    finalize r0.game_hash r4;
+    output r10 as randgen_4_player.aleo/get_random.future;
 
 finalize get_random:
     input r0 as field.public;

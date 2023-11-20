@@ -1,10 +1,7 @@
-// The 'aleo_onchain_vrf' program.
-program aleo_onchain_vrf.aleo {
+program randgen_4_player.aleo {
 
     // owner contract
     // aleo166095pymd83g8essrv9wc6hvxp0lwd0gq3ysc5dcy2jxnc9h4s9qma7wj8
-
-    // TODO: use array when supported. currently it can only support a fixed number of players (4 in this implementation)
 
     // Stores player's stage during initial stage
     // - `player_addr`      :  player's address
@@ -48,52 +45,52 @@ program aleo_onchain_vrf.aleo {
 
 // Create initial game hash and RandomNumber using all players' secret hashes
     transition init_game_hash(
-        public player_init_1: PlayerInit,
-        public player_init_2: PlayerInit, 
-        public player_init_3: PlayerInit, 
-        public player_init_4: PlayerInit
-    ) -> (Player, Player, Player, Player, RandomNumber) {
-        
-        // ensure user secret hash is not 0
-        assert_neq(player_init_1.user_secret_hash, 0field);
-        assert_neq(player_init_2.user_secret_hash, 0field);
-        assert_neq(player_init_3.user_secret_hash, 0field);
-        assert_neq(player_init_4.user_secret_hash, 0field);
+        public player_init_arr: [PlayerInit; 4],
+    ) -> ([Player; 4], RandomNumber) {
         
         // initial game hash is the summation of all users' secret hashes
-        let game_hash: field = player_init_1.user_secret_hash + player_init_2.user_secret_hash + player_init_3.user_secret_hash + player_init_4.user_secret_hash;
+        let game_hash: field = 0field;
+
+        for i:u8 in  0u8..4u8 {
+            // ensure user secret hash is not 0
+            assert_neq(player_init_arr[i].user_secret_hash, 0field);
+
+            game_hash = game_hash + player_init_arr[i].user_secret_hash;
+        }
 
         // create Player structs for each player
-        let player_1: Player = Player {
+        let player_arr: [Player; 4] = [
+            Player {
             game_hash,
-            user: player_init_1.player_addr,
-            user_secret_hash: player_init_1.user_secret_hash
-        };
-        let player_2: Player = Player {
-            game_hash,
-            user: player_init_2.player_addr,
-            user_secret_hash: player_init_2.user_secret_hash
-        };
-        let player_3: Player = Player {
-            game_hash,
-            user: player_init_3.player_addr,
-            user_secret_hash: player_init_3.user_secret_hash
-        };
-        let player_4: Player = Player {
-            game_hash,
-            user: player_init_4.player_addr,
-            user_secret_hash: player_init_4.user_secret_hash
-        };
+            user: player_init_arr[0u8].player_addr,
+            user_secret_hash: player_init_arr[0u8].user_secret_hash
+            },
+            Player {
+                game_hash,
+                user: player_init_arr[1u8].player_addr,
+                user_secret_hash: player_init_arr[1u8].user_secret_hash
+            },
+            Player {
+                game_hash,
+                user: player_init_arr[2u8].player_addr,
+                user_secret_hash: player_init_arr[2u8].user_secret_hash
+            },
+            Player {
+                game_hash,
+                user: player_init_arr[3u8].player_addr,
+                user_secret_hash: player_init_arr[3u8].user_secret_hash
+            }
+        ];
 
         // create RandomNumber struct
         let starting_record: RandomNumber = RandomNumber {
-            user: player_1.user,  // set initial to belong to Player 1
+            user: player_arr[0u8].user,  // set initial to belong to Player 1
             game_hash, 
             random_value: 1field, // set initial random value to 1
             current_turn: 0field  // set initial turn to 0, current_turn is similar to a nonce
         };
         
-        return (player_1, player_2, player_3, player_4, starting_record) then finalize(game_hash);
+        return (player_arr, starting_record) then finalize(game_hash);
     }
 
     finalize init_game_hash (game_hash: field) {
