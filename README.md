@@ -18,6 +18,10 @@ How can we have randomness for onchain turn-based games that is:
 
 An Onchain Verifiable Random Function that consists of pre-game commitments with per-round additive randomness generation.
 
+Here's a demo video:
+
+[ZKVRf Demo.webm](https://github.com/onchain-vrf/aleo-onchain-vrf/assets/46126470/b6cc1957-2bad-411e-8d62-490a54418818)
+
 ### How it works
 
 #### Pre-game
