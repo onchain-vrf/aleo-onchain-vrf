@@ -41,7 +41,7 @@ function init_game_hash:
     cast r0[1u32].player_addr r4 r0[1u32].user_secret_hash into r6 as Player;
     cast r0[2u32].player_addr r4 r0[2u32].user_secret_hash into r7 as Player;
     cast r0[3u32].player_addr r4 r0[3u32].user_secret_hash into r8 as Player;
-    cast r5r6r7r8 into r9 as [Player; 4u32];
+    cast  r5 r6 r7 r8 into r9 as [Player; 4u32];
     cast r9[0u32].user r4 1field 0field into r10 as RandomNumber;
     async init_game_hash r4 into r11;
     output r9 as [Player; 4u32].private;

@@ -61,9 +61,9 @@ program randgen_4_player.aleo {
         // create Player structs for each player
         let player_arr: [Player; 4] = [
             Player {
-            game_hash,
-            user: player_init_arr[0u8].player_addr,
-            user_secret_hash: player_init_arr[0u8].user_secret_hash
+                game_hash,
+                user: player_init_arr[0u8].player_addr,
+                user_secret_hash: player_init_arr[0u8].user_secret_hash
             },
             Player {
                 game_hash,
